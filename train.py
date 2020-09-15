@@ -55,7 +55,7 @@ def main():
                     test_batch_ = None
                     for j, batch_validate in enumerate(iter_validate):
                         test_batch_ = batch_validate
-                        if j == total_iter / opt.print_every:
+                        if j == total_iter % opt.print_every:
                             break
                     test_batch(DE_FIELD, EN_FIELD, translator, test_batch_, device=device)
                     del test_batch_
