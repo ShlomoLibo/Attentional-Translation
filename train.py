@@ -5,13 +5,13 @@ from utils import test_batch, load_model, save_model
 from model import Translator
 from preprocess import get_data, EN_FIELD, DE_FIELD
 import torch
-import os
 
-BATCH_SIZE = 32
-ENCODER_HIDDEN = 128
-DECODER_HIDDEN = 128
-EMBEDDING_DIM_ENCODER = 32
-EMBEDDING_DIM_DECODER = 32
+BATCH_SIZE = 16
+ENCODER_HIDDEN = 256
+DECODER_HIDDEN = 256
+EMBEDDING_DIM_ENCODER = 128
+EMBEDDING_DIM_DECODER = 128
+NUMBER_OF_EXAMPLES = 2000000
 
 
 def main():
@@ -31,39 +31,43 @@ def main():
                             EMBEDDING_DIM_DECODER, sos_token=sos_token, device=device).to(device)
     cross_entropy = torch.nn.CrossEntropyLoss(ignore_index=EN_FIELD.vocab.stoi["<PAD>"])
     optimizer = torch.optim.Adam(translator.parameters(), lr=0.001)
-
     epoch = load_model(translator, opt.checkpoint_folder)
     total_iter = 0
     total_loss = 0
     print("running...")
     for epoch_ in range(epoch, epoch + opt.epochs):
         for i, batch in enumerate(iter_train):
-            try:
-                optimizer.zero_grad()
-                source = batch.src.to(device)
-                target = batch.trg.to(device)[1:, :]  # without <SOS> token
-                output = translator(source, target.shape[0])
-                loss = cross_entropy(output.reshape(-1, output_dim), target.view(-1))
-                loss.backward()
-                optimizer.step()
-                total_loss += loss.item()
-                total_iter += 1
-                del source, target, output, loss
-                if total_iter % opt.print_every == 0:
-                    print(f"iter #{total_iter} loss: {total_loss / opt.print_every}")
-                    total_loss = 0
-                    test_batch_ = None
-                    for j, batch_validate in enumerate(iter_validate):
-                        test_batch_ = batch_validate
-                        if j == total_iter % opt.print_every:
-                            break
-                    test_batch(DE_FIELD, EN_FIELD, translator, test_batch_, device=device)
-                    del test_batch_
-                    save_model(translator, opt.checkpoint_folder, epoch_)
+            if i * BATCH_SIZE < NUMBER_OF_EXAMPLES:
+                try:
+                    optimizer.zero_grad()
+                    source = batch.src.to(device)
+                    target = batch.trg.to(device)[1:, :]  # without <SOS> token
+                    output = translator(source, target.shape[0])
+                    try:
+                        loss = cross_entropy(output.reshape(-1, output_dim), target.view(-1))
+                        loss.backward()
+                        optimizer.step()
+                        total_loss += loss.item()
+                        total_iter += 1
 
-            except Exception as e:
-                print(e)
-                sleep(120)
+                        if total_iter % opt.print_every == 0:
+                            print(f"iter #{total_iter} loss: {total_loss / opt.print_every}")
+                            total_loss = 0
+                            test_batch_ = None
+                            for j, batch_validate in enumerate(iter_validate):
+                                test_batch_ = batch_validate
+                                if j == (total_iter / opt.print_every) % 50:
+                                    break
+                            test_batch(DE_FIELD, EN_FIELD, translator, test_batch_, device=device, max_examples=5)
+                            del test_batch_
+                            save_model(translator, opt.checkpoint_folder, epoch_)
+                    finally:
+                        del source, target, output, loss
+                except Exception as e:
+                    print(e)
+                    sleep(120)
+            else:
+                break
 
 
 if __name__ == "__main__":

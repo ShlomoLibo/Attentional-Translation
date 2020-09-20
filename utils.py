@@ -4,7 +4,9 @@ import os
 
 def test_batch(src_field, trg_field, translator, batch, device, max_examples=32):
     with torch.no_grad():
-        translator_batch = torch.argmax(translator(batch.src.to(device), batch.trg.shape[0] - 1), dim=2)
+        source = batch.src.to(device)
+        target = batch.trg.to(device)
+        translator_batch = torch.argmax(translator(source, target.shape[0] - 1), dim=2)
     for i, (de_example, en_example, translator_example) in enumerate(
             zip(batch.src.split(1, dim=1), batch.trg.split(1, dim=1), translator_batch.split(1, dim=1))):
         if i >= max_examples:
@@ -18,6 +20,8 @@ def test_batch(src_field, trg_field, translator, batch, device, max_examples=32)
         print("translation:")
         print(" ".join([trg_field.vocab.itos[index] for index in translator_example]).encode('utf-8'))
         print("\n\n")
+        del de_example, en_example, translator_example
+    del source, target, translator_batch
 
 
 def load_model(model, checkpoint_folder):

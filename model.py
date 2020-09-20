@@ -17,7 +17,7 @@ class TwoWayGRUEncoder(nn.Module):
 
 
 class AttentionNetwork(nn.Module):
-        def __init__(self, encoder_hidden, decoder_hidden, attn_hidden=128):
+        def __init__(self, encoder_hidden, decoder_hidden, attn_hidden=32):
             super().__init__()
             self.decoder_hidden = decoder_hidden
             self.encoder_hidden = encoder_hidden
