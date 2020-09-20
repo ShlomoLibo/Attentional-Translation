@@ -50,7 +50,7 @@ def main():
     opt = parser.parse_args()
     iter_train, iter_validate, iter_test = get_data(BATCH_SIZE)
     if opt.compare_validation:
-        compare_validation(opt, iter_validate)
+        compare_validation(opt, iter_validate, NUM_TEST)
 
 
 if __name__ == "__main__":
