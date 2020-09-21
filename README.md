@@ -44,5 +44,5 @@ python test.py --checkpoint_folder <checkpoint_folder> --compare_validation
 ```
 
 ## Pre-trained Model
-You can find a pre-trained model [here]().
+You can find a pre-trained model [here](https://drive.google.com/file/d/1jQbOz1J0WomIHeFAEoMGUY69edSAzlhi/view?usp=sharing). <br>
 Simply save it under ```<checkpoint_folder>/epoch_0.pth``` (insure there are no other files in this directory).
