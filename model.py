@@ -77,9 +77,9 @@ class Translator(nn.Module):
         self.decoder = GruAttentionDecoder(encoder_hidden, decoder_hidden, output_dim, embedding_dim_decoder, sos_token, device)
 
     def test(self, source, max_length):
-        with torch.no_grad:
+        with torch.no_grad():
             encoded, _ = self.encoder(source)
-            output, attention = self.decoder.test(encoded, max_length)
+            output, attention = self.decoder(encoded, max_length)
         return output, attention
 
     def forward(self, source, max_length):

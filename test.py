@@ -45,6 +45,8 @@ def compare_validation(opt, iter_, num_test):
 
 
 def attention_vis(opt, iter_):
+    if not os.path.exists(opt.checkpoint_folder + "_attentions"):
+        os.mkdir(opt.checkpoint_folder + "_attentions")
     input_dim = len(DE_FIELD.vocab)
     output_dim = len(EN_FIELD.vocab)
     device = "cuda" if torch.cuda.is_available() else "cpu"
@@ -57,13 +59,13 @@ def attention_vis(opt, iter_):
         target = batch.trg.to(device)[1:, :]  # without <SOS> token
         output, attention = translator.test(source, target.shape[0])
         test_batch(DE_FIELD, EN_FIELD, translator, batch, device=device)
-        for i in attention.shape[0]:  # save attention table for each sample
+        for i in range(attention.shape[0]):  # save attention table for each sample
             fig = plt.figure()
             ax = fig.add_subplot(1, 1, 1)
-            cax = ax.matshow(attention[i].numpy(), cmap='bone')
+            cax = ax.matshow(attention.cpu()[i].numpy(), cmap='bone')
             fig.colorbar(cax)
             ax.set_xticklabels([''] + [DE_FIELD.vocab.itos[j] for j in source[:, i]] + ['<EOS>'], rotation=90)
-            ax.set_yticklabels([''] + [EN_FIELD.vocab.itos[j] for j in source[:, i]])
+            ax.set_yticklabels([''] + [EN_FIELD.vocab.itos[j] for j in torch.argmax(output, dim=2)[:, i]])
             ax.xaxis.set_major_locator(ticker.MultipleLocator(1))
             ax.yaxis.set_major_locator(ticker.MultipleLocator(1))
             fig.savefig(os.path.join(opt.checkpoint_folder + "_attentions", f"attnetion_{i}.png"))
