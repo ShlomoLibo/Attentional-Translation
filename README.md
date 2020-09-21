@@ -7,7 +7,7 @@ This project is a pytorch implementation of the [Neural Machine Tanslation by Jo
 <img src='examples/example_1.png' align="center">
 
 ## Requirements
-Download the following ```.yml``` file for the required anaconda environment: [Link](https://drive.google.com/file/d/1DQL8cr8L7LDoAeVV3_22i3xvWn3S4chs/view?usp=sharing)
+Download the following ```.yml``` file for the required anaconda environment: [link](https://drive.google.com/file/d/1DQL8cr8L7LDoAeVV3_22i3xvWn3S4chs/view?usp=sharing)
 <br>
 To create the environment run:
 ```
