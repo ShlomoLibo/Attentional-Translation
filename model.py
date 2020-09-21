@@ -47,12 +47,16 @@ class GruAttentionDecoder(nn.Module):
         self.sos_token = sos_token
 
     def forward(self, encoder_output, max_length):
-        output = torch.zeros([max_length, encoder_output.shape[1], self.output_dim]).to(self.device)
-        hidden = torch.zeros([1, encoder_output.shape[1], self.decoder_hidden]).to(self.device)
-        input_ = self.embedding(torch.ones([encoder_output.shape[1], 1], dtype=torch.long).to(self.device) * self.sos_token)
+        batch_size = encoder_output.shape[1]
+        total_attention = torch.zeros([batch_size, encoder_output.shape[0], max_length]).to(self.device)
+        output = torch.zeros([max_length, batch_size, self.output_dim]).to(self.device)
+        hidden = torch.zeros([1, batch_size, self.decoder_hidden]).to(self.device)
+        input_ = self.embedding(
+            torch.ones([batch_size, 1], dtype=torch.long).to(self.device) * self.sos_token)
         input_ = input_.permute(1, 0, 2)
         for i in range(max_length):
             attention = self.attn(hidden, encoder_output)
+            total_attention[:, :, i] = attention.squeeze()
             context = torch.bmm(encoder_output.permute(1, 2, 0), attention)
             context = context.permute(2, 0, 1)
             gru_input = torch.cat([context, input_], dim=2)
@@ -63,7 +67,7 @@ class GruAttentionDecoder(nn.Module):
             input_ = torch.argmax(output[i], dim=1, keepdim=True)
             input_ = self.embedding(input_)
             input_ = input_.permute(1, 0, 2)
-        return output
+        return output, total_attention
 
 
 class Translator(nn.Module):
@@ -72,15 +76,15 @@ class Translator(nn.Module):
         self.encoder = TwoWayGRUEncoder(input_dim, embedding_dim_encoder, encoder_hidden)
         self.decoder = GruAttentionDecoder(encoder_hidden, decoder_hidden, output_dim, embedding_dim_decoder, sos_token, device)
 
-    def test(self, input_sentence, max_length):
+    def test(self, source, max_length):
         with torch.no_grad:
-            encoded, _ = self.encoder(input_sentence=15)
-            output = self.decoder.test(encoded, max_length)
+            encoded, _ = self.encoder(source)
+            output, attention = self.decoder.test(encoded, max_length)
+        return output, attention
 
-
-    def forward(self, source, target):
+    def forward(self, source, max_length):
         encoded, _ = self.encoder(source)
-        output = self.decoder(encoded, target)
+        output, _ = self.decoder(encoded, max_length)
         return output
 
 
