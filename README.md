@@ -9,6 +9,7 @@ For example:
 -	<i> Was ist deine Liblingsfarbe? </i>
 Is translated to:
 -	<i> What is your favorite color? </i>
+
 Where <i>“Liblings”</i> corresponds to <i>“favorite”</i> and <i>“farbe”</i> corresponds to <i>“color”</i>. <br>
 It is interesting to see whether the model will place its attention both when translating “favorite” and when translating “farbe”, or the attention will be placed only when translating one of the words and the rest will be carried through the hidden sates.
 
@@ -17,6 +18,7 @@ In German, one verb can be separated across the sentence. For example, the sente
 -	<i> Ich mache meine Auge zu. </i>
 Translates to:
 -	<i>I close my eyes.</i>
+
 Both <i>“mache”</i> and <i>“zu”</i> together represent a single verb, <i>“zumachen”</i> (to close). Without the information that <i>“zu”</i> is in the end of the sentence, the original sentence can also be <i>“Ich mache meine Auge auf”</i> (I open my eyes). <br>
 Therefore, we expect that after translating <i>“I”</i>, attention will be placed both at <i>“mache”</i> and <i>“zu”</i>. 
 
