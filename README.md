@@ -29,7 +29,7 @@ Therefore, we expect that after translating <i>“I”</i>, attention will be pl
 <img src='examples/example_0.png' align="center">
 <img src='examples/example_1.png' align="center">
 
-A more detailed discussion about the experiments and results can be found [here](https://github.com/ShlomoLibo/Attentional-Translation/blob/master/Neural%20Machine%20Translation%20by%20Jointly%20Learning%20to%20Align%20and%20Translate.pdf)
+A more detailed discussion about the experiments and results can be found [here](https://github.com/ShlomoLibo/Attentional-Translation/blob/master/Neural%20Machine%20Translation%20by%20Jointly%20Learning%20to%20Align%20and%20Translate.pdf).
 
 ## Requirements
 Download the following ```.yml``` file for the required anaconda environment: [link](https://drive.google.com/file/d/1DQL8cr8L7LDoAeVV3_22i3xvWn3S4chs/view?usp=sharing)
