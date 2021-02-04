@@ -7,6 +7,7 @@ A more detailed discussion about the experiments and results can be found [here]
 In German, sometimes words that are separate in other languages are compounded into a single word. For that reason, German is famous for having long words (<i> Mamutwoerter </i> – mammoth words).
 For example:
 -	<i> Was ist deine Liblingsfarbe? </i>
+
 Is translated to:
 -	<i> What is your favorite color? </i>
 
@@ -16,6 +17,7 @@ It is interesting to see whether the model will place its attention both when tr
 ## Separable verbs
 In German, one verb can be separated across the sentence. For example, the sentence:
 -	<i> Ich mache meine Auge zu. </i>
+
 Translates to:
 -	<i>I close my eyes.</i>
 
