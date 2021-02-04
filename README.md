@@ -1,14 +1,14 @@
 # Attentional Translation
 This project is a pytorch implementation of the [Neural Machine Tanslation by Jointly Learning to Align and Translate](https://arxiv.org/abs/1409.0473) paper, for German to English translation based on the Multi30k dataset. <br>
 The behaviour of two phenomena under that model were examined, that are unique to the German language: compound words and separable verbs. <br>
-A more detailed discussion about the experiments and results can be found [here](Neural Machine Translation by Jointly Learning to Align and Translate.pdf). 
+A more detailed discussion about the experiments and results can be found [here](https://github.com/ShlomoLibo/Attentional-Translation/blob/master/Neural%20Machine%20Translation%20by%20Jointly%20Learning%20to%20Align%20and%20Translate.pdf). 
 
 ## Compound Words
 In German, sometimes words that are separate in other languages are compounded into a single word. For that reason, German is famous for having long words (<i> Mamutwoerter </i> – mammoth words).
 For example:
 -	<i> Was ist deine Liblingsfarbe? </i>
 
-Is translated to:
+Translates to:
 -	<i> What is your favorite color? </i>
 
 Where <i>“Liblings”</i> corresponds to <i>“favorite”</i> and <i>“farbe”</i> corresponds to <i>“color”</i>. <br>
@@ -29,7 +29,7 @@ Therefore, we expect that after translating <i>“I”</i>, attention will be pl
 <img src='examples/example_0.png' align="center">
 <img src='examples/example_1.png' align="center">
 
-A more detailed discussion about the experiments and results can be found [here](Neural Machine Translation by Jointly Learning to Align and Translate.pdf). 
+A more detailed discussion about the experiments and results can be found [here](https://github.com/ShlomoLibo/Attentional-Translation/blob/master/Neural%20Machine%20Translation%20by%20Jointly%20Learning%20to%20Align%20and%20Translate.pdf)
 
 ## Requirements
 Download the following ```.yml``` file for the required anaconda environment: [link](https://drive.google.com/file/d/1DQL8cr8L7LDoAeVV3_22i3xvWn3S4chs/view?usp=sharing)
