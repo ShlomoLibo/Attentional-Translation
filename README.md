@@ -1,10 +1,31 @@
 # Attentional Translation
-This project is a pytorch implementation of the [Neural Machine Tanslation by Jointly Learning to Align and Translate](https://arxiv.org/abs/1409.0473) paper, for German to English translation based on the Multi30k dataset.
+This project is a pytorch implementation of the [Neural Machine Tanslation by Jointly Learning to Align and Translate](https://arxiv.org/abs/1409.0473) paper, for German to English translation based on the Multi30k dataset. <br>
+The behaviour of two phenomena under that model were examined, that are unique to the German language: compound words and separable verbs. <br>
+A more detailed discussion about the experiments and results can be found [here](Neural Machine Translation by Jointly Learning to Align and Translate.pdf). 
+
+## Compound Words
+In German, sometimes words that are separate in other languages are compounded into a single word. For that reason, German is famous for having long words (<i> Mamutwoerter </i> – mammoth words).
+For example:
+-	<i> Was ist deine Liblingsfarbe? </i>
+Is translated to:
+-	<i> What is your favorite color? </i>
+Where <i>“Liblings”</i> corresponds to <i>“favorite”</i> and <i>“farbe”</i> corresponds to <i>“color”</i>. <br>
+It is interesting to see whether the model will place its attention both when translating “favorite” and when translating “farbe”, or the attention will be placed only when translating one of the words and the rest will be carried through the hidden sates.
+
+## Separable verbs
+In German, one verb can be separated across the sentence. For example, the sentence:
+-	<i> Ich mache meine Auge zu. </i>
+Translates to:
+-	<i>I close my eyes.</i>
+Both <i>“mache”</i> and <i>“zu”</i> together represent a single verb, <i>“zumachen”</i> (to close). Without the information that <i>“zu”</i> is in the end of the sentence, the original sentence can also be <i>“Ich mache meine Auge auf”</i> (I open my eyes). <br>
+Therefore, we expect that after translating <i>“I”</i>, attention will be placed both at <i>“mache”</i> and <i>“zu”</i>. 
 
 ## Example Results
 
 <img src='examples/example_0.png' align="center">
 <img src='examples/example_1.png' align="center">
+
+A more detailed discussion about the experiments and results can be found [here](Neural Machine Translation by Jointly Learning to Align and Translate.pdf). 
 
 ## Requirements
 Download the following ```.yml``` file for the required anaconda environment: [link](https://drive.google.com/file/d/1DQL8cr8L7LDoAeVV3_22i3xvWn3S4chs/view?usp=sharing)
